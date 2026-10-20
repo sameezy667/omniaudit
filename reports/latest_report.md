@@ -17,9 +17,9 @@ CLI -> AST planner -> ThreadPool agents -> disposable pytest sandbox
 
 | Mode | Workers | Wall-clock seconds |
 | --- | ---: | ---: |
-| Serial | 1 | 0.9368 |
-| Parallel | 4 | 0.6359 |
-| Speedup | - | 1.4731x |
+| Serial | 1 | 2.2568 |
+| Parallel | 4 | 1.1834 |
+| Speedup | - | 1.9071x |
 
 ## Module: `examples/buggy_pkg/__init__.py`
 
@@ -63,20 +63,20 @@ CLI -> AST planner -> ThreadPool agents -> disposable pytest sandbox
 --- examples/buggy_pkg/math_ops.py
 +++ examples/buggy_pkg/math_ops.py
 @@ -2,14 +2,18 @@
- 
- 
+
+
  def average(nums):
 +    if not nums:
 +        raise ValueError("nums must not be empty")
      total = sum(nums)
      return total / len(nums)
- 
- 
+
+
  def tail(items, n):
 -    return items[:n]
 +    return items[-n:] if n > 0 else []
- 
- 
+
+
 -def append_item(val, bucket=[]):
 +def append_item(val, bucket=None):
 +    if bucket is None:
@@ -89,5 +89,5 @@ CLI -> AST planner -> ThreadPool agents -> disposable pytest sandbox
 
 ```text
 .......                                                                  [100%]
-7 passed in 0.01s
+7 passed in 0.03s
 ```
