@@ -91,7 +91,8 @@ def render_report(run: AuditRun, target_dir: Path, *, benchmark: bool) -> str:
                 )
             lines.append("")
         if module.patch_diff:
-            lines.extend(["### Synthesized unified diff", "", "```diff", module.patch_diff, "```", ""])
+            report_diff = "\n".join(line.rstrip() for line in module.patch_diff.splitlines())
+            lines.extend(["### Synthesized unified diff", "", "```diff", report_diff, "```", ""])
         if module.patched:
             lines.extend(
                 [
